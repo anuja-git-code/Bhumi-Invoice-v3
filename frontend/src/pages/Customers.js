@@ -36,42 +36,54 @@ function Customers() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Add Customer</h2>
+    <div className="container">
+      <div className="page-card">
+        <h2 className="page-title">Add Customer</h2>
+        <p className="page-note">Add customer details here and save them to your billing database.</p>
 
-      <input
-        type="text"
-        name="name"
-        value={form.name}
-        placeholder="Customer Name"
-        onChange={handleChange}
-      /><br /><br />
+        <input
+          className="form-field"
+          type="text"
+          name="name"
+          value={form.name}
+          placeholder="Customer Name"
+          onChange={handleChange}
+        />
+        <div style={{ height: 18 }} />
 
-      <input
-        type="text"
-        name="address"
-        value={form.address}
-        placeholder="Address"
-        onChange={handleChange}
-      /><br /><br />
+        <input
+          className="form-field"
+          type="text"
+          name="address"
+          value={form.address}
+          placeholder="Address"
+          onChange={handleChange}
+        />
+        <div style={{ height: 18 }} />
 
-      <input
-        type="text"
-        name="gst"
-        value={form.gst}
-        placeholder="GST Number"
-        onChange={handleChange}
-      /><br /><br />
+        <input
+          className="form-field"
+          type="text"
+          name="gst"
+          value={form.gst}
+          placeholder="GST Number"
+          onChange={handleChange}
+        />
+        <div style={{ height: 18 }} />
 
-      <input
-        type="text"
-        name="phone"
-        value={form.phone}
-        placeholder="Phone Number"
-        onChange={handleChange}
-      /><br /><br />
+        <input
+          className="form-field"
+          type="text"
+          name="phone"
+          value={form.phone}
+          placeholder="Phone Number"
+          onChange={handleChange}
+        />
 
-      <button onClick={handleSubmit}>Save Customer</button>
+        <div className="form-actions">
+          <button className="cta-button" onClick={handleSubmit}>Save Customer</button>
+        </div>
+      </div>
     </div>
   );
 }

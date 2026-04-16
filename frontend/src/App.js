@@ -1,24 +1,19 @@
 import { useState } from "react";
 import Invoice from "./pages/Invoice";
-import Customers from "./pages/Customers";
 import Ledger from "./pages/Ledger";
 
 function App() {
   const [activeTab, setActiveTab] = useState("invoice");
 
   return (
-    <div>
-      {/* Navigation Bar */}
-      <div style={{ padding: "10px", background: "#333", color: "white", display: "flex", gap: "20px" }}>
-        <button onClick={() => setActiveTab("invoice")} style={tabStyle(activeTab === "invoice")}>New Invoice</button>
-        <button onClick={() => setActiveTab("customers")} style={tabStyle(activeTab === "customers")}>Customers</button>
-        <button onClick={() => setActiveTab("ledger")} style={tabStyle(activeTab === "ledger")}>Ledger</button>
+    <div className="app-shell">
+      <div className="nav-bar">
+        <button className={`nav-button ${activeTab === "invoice" ? "active" : ""}`} onClick={() => setActiveTab("invoice")}>New Invoice</button>
+        <button className={`nav-button ${activeTab === "ledger" ? "active" : ""}`} onClick={() => setActiveTab("ledger")}>Ledger</button>
       </div>
 
-      {/* Page Content */}
-      <div style={{ padding: "10px" }}>
+      <div className="page-area">
         {activeTab === "invoice" && <Invoice />}
-        {activeTab === "customers" && <Customers />}
         {activeTab === "ledger" && <Ledger />}
       </div>
     </div>
