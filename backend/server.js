@@ -11,7 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || "mongodb://127.0.0.1:27017/billing-system")
+const mongoUri = process.env.MONGO_URI || process.env.MONGO_URL || "mongodb://127.0.0.1:27017/billing-system";
+mongoose.connect(mongoUri)
   .then(() => console.log("MongoDB Connected ✅"))
   .catch(err => console.log("MongoDB Error ❌", err));
 

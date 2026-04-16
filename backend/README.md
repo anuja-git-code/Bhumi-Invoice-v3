@@ -5,7 +5,7 @@ This backend is an Express + MongoDB app.
 ## Vercel deployment
 
 1. Create a new Vercel project and point it to the `backend` folder.
-2. Set the environment variable `MONGO_URI` in Vercel to your MongoDB connection string.
+2. Set the environment variable `MONGO_URI` or `MONGO_URL` in Vercel to your MongoDB connection string.
 3. Deploy.
 
 ## Local development
