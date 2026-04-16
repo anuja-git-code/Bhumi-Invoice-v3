@@ -1,11 +1,18 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../api";
 
 function Ledger() {
   const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/invoices")
+    if (!API_BASE_URL) {
+      console.error("Backend URL is not configured.");
+      setLoading(false);
+      return;
+    }
+
+    fetch(`${API_BASE_URL}/invoices`)
       .then(res => res.json())
       .then(data => {
         setInvoices(data);

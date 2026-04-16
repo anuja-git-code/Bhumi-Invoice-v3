@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../api";
 
 function Customers() {
   const [form, setForm] = useState({
@@ -16,8 +17,13 @@ function Customers() {
   };
 
   const handleSubmit = async () => {
+    if (!API_BASE_URL) {
+      alert("Save is unavailable on GitHub Pages because the backend is not hosted. Configure REACT_APP_API_URL to your hosted backend URL or use the app locally.");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:5000/save-customer", {
+      const response = await fetch(`${API_BASE_URL}/save-customer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)

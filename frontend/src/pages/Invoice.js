@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../api";
 
 function Invoice() {
 
@@ -10,6 +11,8 @@ function Invoice() {
     name: "",
     address: ""
   });
+
+  const backendUrl = API_BASE_URL;
 
   const handlePrint = () => window.print();
 
@@ -30,13 +33,18 @@ function Invoice() {
   const grand = total + sgst + cgst;
 
   const handleSave = async () => {
+    if (!backendUrl) {
+      alert("Save is unavailable on GitHub Pages because the backend is not hosted. Run the app locally with the backend or deploy the backend and set REACT_APP_API_URL.");
+      return;
+    }
+
     try {
       const payload = {
         customer,
         items,
         totals: { total, sgst, cgst, grand }
       };
-      const response = await fetch("http://localhost:5000/save-invoice", {
+      const response = await fetch(`${backendUrl}/save-invoice`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
