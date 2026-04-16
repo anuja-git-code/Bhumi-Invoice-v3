@@ -20,14 +20,4 @@ function App() {
   );
 }
 
-const tabStyle = (active) => ({
-  background: active ? "#555" : "transparent",
-  color: "white",
-  border: "none",
-  padding: "10px 15px",
-  cursor: "pointer",
-  fontSize: "16px",
-  borderRadius: "5px"
-});
-
 export default App;
