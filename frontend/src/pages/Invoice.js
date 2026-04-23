@@ -7,10 +7,12 @@ function Invoice() {
     { desc: "", hsn: "", rate: "", qty: "", total: "" }
   ]);
 
-  const [customer, setCustomer] = useState({
-    name: "",
-    address: ""
-  });
+ const [customer, setCustomer] = useState({
+  name: "",
+  address: "",
+  gst: "",
+  hsn: "39232990"
+});
 
   const backendUrl = API_BASE_URL;
 
@@ -118,7 +120,13 @@ function Invoice() {
             <div style={{ width: "60%", padding: "8px" }}>
               <p><b>Name :</b> <input value={customer.name} onChange={(e)=>setCustomer({...customer,name:e.target.value})} /></p>
               <p><b>Address :</b> <input value={customer.address} onChange={(e)=>setCustomer({...customer,address:e.target.value})} /></p>
-              <p><b>G.S.T.N :</b> NA</p>
+              <p>
+  <b>G.S.T.N :</b>
+  <input
+    value={customer.gst}
+    onChange={(e)=>setCustomer({...customer,gst:e.target.value})}
+  />
+</p>
             </div>
 
             <div style={{ width: "40%", borderLeft: "1px solid black", padding: "8px" }}>
@@ -147,8 +155,8 @@ function Invoice() {
                 <td>{i + 1}</td>
 
                 <td><input name="desc" onChange={(e)=>handleChange(i,e)} /></td>
-                <td><input name="hsn" onChange={(e)=>handleChange(i,e)} /></td>
-                <td><input name="rate" onChange={(e)=>handleChange(i,e)} /></td>
+            <td>39232990</td>
+          <td><input name="rate" onChange={(e)=>handleChange(i,e)} /></td>
                 <td><input name="qty" onChange={(e)=>handleChange(i,e)} /></td>
 
                 <td>{item.total || ""}</td>
