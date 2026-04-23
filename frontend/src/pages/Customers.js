@@ -2,11 +2,29 @@ import { useState } from "react";
 import { API_BASE_URL } from "../api";
 
 function Customers() {
+  const generateGST = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const nums = "0123456789";
+
+    const random = (set, len) =>
+      Array.from({ length: len }, () => set[Math.floor(Math.random() * set.length)]).join("");
+
+    return (
+      "27" +
+      random(chars, 5) +
+      random(nums, 4) +
+      random(chars, 1) +
+      "1Z" +
+      random(nums, 1)
+    );
+  };
+
   const [form, setForm] = useState({
     name: "",
     address: "",
-    gst: "",
-    phone: ""
+    gst: generateGST(),
+    phone: "",
+    hsn: "39232990"
   });
 
   const handleChange = (e) => {
@@ -17,26 +35,29 @@ function Customers() {
   };
 
   const handleSubmit = async () => {
-    if (!API_BASE_URL) {
-      alert("Save is unavailable on GitHub Pages because the backend is not hosted. Configure REACT_APP_API_URL to your hosted backend URL or use the app locally.");
-      return;
-    }
-
     try {
       const response = await fetch(`${API_BASE_URL}/save-customer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
       });
+
       const data = await response.json();
+
       if (response.ok) {
         alert("Customer saved successfully!");
-        setForm({ name: "", address: "", gst: "", phone: "" });
+
+        setForm({
+          name: "",
+          address: "",
+          gst: generateGST(),
+          phone: "",
+          hsn: "39232990"
+        });
       } else {
-        alert("Failed to save customer: " + (data.error || "Unknown error"));
+        alert("Failed to save customer");
       }
     } catch (error) {
-      console.error("Error saving customer:", error);
       alert("Error saving customer");
     }
   };
@@ -44,51 +65,24 @@ function Customers() {
   return (
     <div className="container">
       <div className="page-card">
-        <h2 className="page-title">Add Customer</h2>
-        <p className="page-note">Add customer details here and save them to your billing database.</p>
+        <h2>Add Customer</h2>
 
-        <input
-          className="form-field"
-          type="text"
-          name="name"
-          value={form.name}
-          placeholder="Customer Name"
-          onChange={handleChange}
-        />
-        <div style={{ height: 18 }} />
+        <input type="text" name="name" placeholder="Customer Name" value={form.name} onChange={handleChange} />
+        <br /><br />
 
-        <input
-          className="form-field"
-          type="text"
-          name="address"
-          value={form.address}
-          placeholder="Address"
-          onChange={handleChange}
-        />
-        <div style={{ height: 18 }} />
+        <input type="text" name="address" placeholder="Address" value={form.address} onChange={handleChange} />
+        <br /><br />
 
-        <input
-          className="form-field"
-          type="text"
-          name="gst"
-          value={form.gst}
-          placeholder="GST Number"
-          onChange={handleChange}
-        />
-        <div style={{ height: 18 }} />
+        <input type="text" name="gst" value={form.gst} readOnly />
+        <br /><br />
 
-        <input
-          className="form-field"
-          type="text"
-          name="phone"
-          value={form.phone}
-          placeholder="Phone Number"
-          onChange={handleChange}
-        />
+        <input type="text" name="hsn" value={form.hsn} readOnly />
+        <br /><br />
 
-        <div className="form-actions">
-          <button className="cta-button" onClick={handleSubmit}>Save Customer</button>
-        </div>
+        <input type="text" name="phone" placeholder="Phone Number" value={form.phone} onChange={handleChange} />
+        <br /><br />
+
+        <button onClick={handleSubmit}>Save Customer</button>
       </div>
     </div>
   );
