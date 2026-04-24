@@ -8,6 +8,7 @@ app.use(cors({
   origin: "*"
 }));
 app.use(express.json());
+
 app.options("*", cors({ origin: "*" }));
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
