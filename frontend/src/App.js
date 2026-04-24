@@ -5,6 +5,7 @@ import Ledger from "./pages/Ledger";
 function App() {
   const [activeTab, setActiveTab] = useState("invoice");
 
+  
   return (
     <div className="app-shell">
       <div className="nav-bar">
