@@ -9,7 +9,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.options("*", cors({ origin: "*" }));
 
 mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("MongoDB connected");
