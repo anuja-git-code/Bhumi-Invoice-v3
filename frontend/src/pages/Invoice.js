@@ -207,11 +207,7 @@ function Invoice() {
               Ph : 8208460013, 9004007751 &nbsp;|&nbsp; Email : bhumipolymer@gmail.com
             </div>
           </div>
-          <div className="inv-header-right">
-            <div className="inv-meta-row">
-              <span className="inv-meta-label">Invoice No. :</span>
-              <EditInput value={invoiceNo} onChange={e => setInvoiceNo(e.target.value)} placeholder="848" style={{ width: "70px" }} />
-            </div>
+          
             <div className="inv-meta-row">
               <span className="inv-meta-label">PO. No. :</span>
               <EditInput value={poNo} onChange={e => setPoNo(e.target.value)} placeholder="-" style={{ width: "70px" }} />
