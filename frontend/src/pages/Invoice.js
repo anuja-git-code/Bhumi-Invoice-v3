@@ -228,42 +228,39 @@ function Invoice() {
           </div>
         </div>
 
-        {/* RECEIVER */}
-        <div className="receiver-row">
-          <div className="receiver-left">
-            <div className="receiver-section-title">Details of Receiver (Billed to)</div>
-            <div className="receiver-fields">
-              <div className="field-row">
-                <span className="field-label">M/s./ Shri.</span>
-                <EditInput value={customer.name} onChange={e => setCustomer({ ...customer, name: e.target.value })} placeholder="Customer name" />
-              </div>
-              <div className="field-row">
-                <span className="field-label">Address</span>
-                <EditInput value={customer.address} onChange={e => setCustomer({ ...customer, address: e.target.value })} placeholder="Address" />
-              </div>
-              <div className="field-row">
-                <span className="field-label">State</span>
-                <EditInput value={customer.state} onChange={e => setCustomer({ ...customer, state: e.target.value })} placeholder="State" style={{ width: "100px" }} />
-                <span style={{ fontWeight: 600, marginLeft: "10px", whiteSpace: "nowrap" }}>State Code :</span>
-                <EditInput value={customer.stateCode} onChange={e => setCustomer({ ...customer, stateCode: e.target.value })} placeholder="27" style={{ width: "35px" }} />
-              </div>
-              <div className="field-row">
-                <span className="field-label">GSTIN No.</span>
-                <input
-                  className="gstin-input"
-                  maxLength={15}
-                  value={customer.gstin}
-                  onChange={e => setCustomer({ ...customer, gstin: e.target.value.toUpperCase() })}
-                  placeholder="Enter 15-digit GSTIN"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="receiver-right">
-            <div className="receiver-section-title" style={{ visibility: "hidden" }}>.</div>
-            <div className="receiver-fields"><div>&nbsp;</div></div>
-          </div>
-        </div>
+       {/* RECEIVER + INVOICE META */}
+<div style={{ display: "flex", borderBottom: "1px solid #1a1a1a" }}>
+  <div style={{ flex: 1, borderRight: "1px solid #1a1a1a" }}>
+    <div className="receiver-section-title">Details of Receiver (Billed to)</div>
+    <div className="receiver-fields">
+      <div className="field-row">
+        <span className="field-label">M/s./ Shri.</span>
+        <EditInput value={customer.name} onChange={e => setCustomer({ ...customer, name: e.target.value })} placeholder="Customer name" />
+      </div>
+      <div className="field-row">
+        <span className="field-label">Address</span>
+        <EditInput value={customer.address} onChange={e => setCustomer({ ...customer, address: e.target.value })} placeholder="Address" />
+      </div>
+      <div className="field-row">
+        <span className="field-label">State</span>
+        <EditInput value={customer.state} onChange={e => setCustomer({ ...customer, state: e.target.value })} placeholder="State" style={{ width: "100px" }} />
+        <span style={{ fontWeight: 600, marginLeft: "10px", whiteSpace: "nowrap" }}>State Code :</span>
+        <EditInput value={customer.stateCode} onChange={e => setCustomer({ ...customer, stateCode: e.target.value })} placeholder="27" style={{ width: "35px" }} />
+      </div>
+      <div className="field-row">
+        <span className="field-label">GSTIN No.</span>
+        <input className="gstin-input" maxLength={15} value={customer.gstin} onChange={e => setCustomer({ ...customer, gstin: e.target.value.toUpperCase() })} placeholder="Enter 15-digit GSTIN" />
+      </div>
+    </div>
+  </div>
+  <div style={{ minWidth: "200px", padding: "8px 12px", display: "flex", flexDirection: "column", gap: "6px", fontSize: "12px" }}>
+    <div className="inv-meta-row"><span className="inv-meta-label">Invoice No. :</span><EditInput value={invoiceNo} onChange={e => setInvoiceNo(e.target.value)} placeholder="848" style={{ width: "70px" }} /></div>
+    <div className="inv-meta-row"><span className="inv-meta-label">PO. No. :</span><EditInput value={poNo} onChange={e => setPoNo(e.target.value)} placeholder="-" style={{ width: "70px" }} /></div>
+    <div className="inv-meta-row" style={{ color: "#666" }}>Enquiry Date : -</div>
+    <div className="inv-meta-row"><span className="inv-meta-label">Invoice Date :</span><EditInput value={invoiceDate} onChange={e => setInvoiceDate(e.target.value)} placeholder="DD/MM/YYYY" style={{ width: "80px" }} /></div>
+    <div className="inv-meta-row"><span className="inv-meta-label">Vehicle No. :</span><EditInput value={vehicleNo} onChange={e => setVehicleNo(e.target.value)} placeholder="-" style={{ width: "60px" }} /></div>
+  </div>
+</div>
 
         {/* ITEMS TABLE */}
         <table className="items-table">
