@@ -29,6 +29,7 @@ const EditInput = ({ value, onChange, placeholder, style = {} }) => (
     style={style}
   />
 );
+
 function Invoice() {
   const [items, setItems] = useState([
     { desc: "", hsn: "39232990", rate: "", qty: "", total: "" }
