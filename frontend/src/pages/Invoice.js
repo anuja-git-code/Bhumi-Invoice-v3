@@ -20,7 +20,15 @@ const toWords = (num) => {
   const rounded = Math.round(num);
   return convert(rounded) + " Only";
 };
-
+const EditInput = ({ value, onChange, placeholder, style = {} }) => (
+  <input
+    value={value}
+    onChange={onChange}
+    placeholder={placeholder}
+    className="edit-input"
+    style={style}
+  />
+);
 function Invoice() {
   const [items, setItems] = useState([
     { desc: "", hsn: "39232990", rate: "", qty: "", total: "" }
@@ -90,16 +98,6 @@ function Invoice() {
       alert("Error saving invoice: " + e.message);
     }
   };
-
-  const EditInput = ({ value, onChange, placeholder, style = {} }) => (
-    <input
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-      className="edit-input"
-      style={style}
-    />
-  );
 
   return (
     <div className="invoice-wrapper">
