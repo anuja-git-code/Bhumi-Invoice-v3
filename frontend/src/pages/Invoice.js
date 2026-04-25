@@ -274,18 +274,19 @@ function Invoice() {
               All Dispute Subjected to Islampur Jurisdiction
             </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "220px", padding: "10px 14px" }}>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ marginTop: "40px", borderTop: "1px solid #1a1a1a", paddingTop: "4px", fontSize: "11px" }}>Cust. Sign.</div>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <div style={{ marginTop: "40px", borderTop: "1px solid #1a1a1a", paddingTop: "4px" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700 }}>For, BHUMI POLYMERS</div>
-                <div style={{ fontSize: "11px", color: "#555" }}>Authorized Signatory</div>
-              </div>
-            </div>
-          </div>
-        </div>
+         <div style={{ display: "flex", width: "320px" }}>
+  <div style={{ flex: 1, borderLeft: "1px solid #1a1a1a", padding: "10px 14px", display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "100px" }}>
+    <div></div>
+    <div style={{ textAlign: "center", fontSize: "11px", color: "#555", borderTop: "1px solid #ccc", paddingTop: "4px" }}>Cust. Sign.</div>
+  </div>
+  <div style={{ flex: 1, borderLeft: "1px solid #1a1a1a", padding: "10px 14px", display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "100px" }}>
+    <div></div>
+    <div style={{ textAlign: "center" }}>
+      <div style={{ fontSize: "13px", fontWeight: 700 }}>For, BHUMI POLYMERS</div>
+      <div style={{ fontSize: "11px", color: "#555" }}>Authorized Signatory</div>
+    </div>
+  </div>
+</div>
 
       </div>
     </div>
