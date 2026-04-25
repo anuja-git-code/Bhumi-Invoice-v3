@@ -29,9 +29,7 @@ module.exports = async (req, res) => {
   }
 
   await connectDB();
-
   const url = req.url.replace(/\?.*$/, "");
-
   if (req.method === "POST" && url === "/save-invoice") {
     try {
       const { customer, items, totals } = req.body;
