@@ -135,9 +135,9 @@ function Invoice() {
         .field-label { font-weight: 600; white-space: nowrap; min-width: 70px; }
         .gstin-input { border: none; border-bottom: 1px dashed #aaa; outline: none; background: transparent; font-family: monospace; font-size: 12px; font-weight: 600; letter-spacing: 2px; width: 100%; padding: 2px 4px; text-transform: uppercase; }
         .gstin-input:focus { border-bottom: 1px solid #1a3a5c; }
-        .items-table { width: 100%; border-collapse: collapse; border-bottom: 1px solid #1a1a1a; table-layout: fixed; }
+        .items-table { width: 100%; border-collapse: collapse; border-bottom: 1px solid #1a1a1a; table-layout: fixed; border: 1px solid #1a1a1a; }
         .items-table th { background: #d0d8e4; border: 1px solid #1a1a1a; padding: 6px 8px; text-align: center; font-size: 12px; font-weight: 700; }
-        .items-table td { border: 1px solid #1a1a1a; padding: 4px 6px; text-align: center; vertical-align: middle; font-size: 12px; }
+        .items-table td { border: 1px solid #1a1a1a; padding: 4px 6px; text-align: center; vertical-align: middle; font-size: 12px; height: 32px; }
         .items-table td.desc-cell { text-align: left; }
         .items-table tbody tr { height: 32px; }
         .bottom-section { display: flex; border-bottom: 1px solid #1a1a1a; }
@@ -324,11 +324,11 @@ function Invoice() {
                 </tr>
                 <tr>
                   <td>CGST &nbsp; 9 %</td>
-                  <td>{isMaharashtra ? cgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
+                  <td>{isMaharashtra && total > 0 ? cgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
                 </tr>
                 <tr>
                   <td>SGST &nbsp; 9 %</td>
-                  <td>{isMaharashtra ? sgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
+                  <td>{isMaharashtra && total > 0 ? sgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
                 </tr>
                 <tr>
                   <td>IGST &nbsp; 18 %</td>
