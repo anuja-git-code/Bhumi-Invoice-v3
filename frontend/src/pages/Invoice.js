@@ -137,10 +137,11 @@ function Invoice() {
         .items-table th { background: #d0d8e4; border: 1px solid #1a1a1a; padding: 6px 8px; text-align: center; font-size: 12px; font-weight: 700; }
         .items-table td { border: 1px solid #1a1a1a; padding: 4px 6px; text-align: center; vertical-align: middle; font-size: 12px; height: 32px; }
         .items-table td.desc-cell { text-align: left; }
-        .items-table tbody tr { height: 32px; }
+        .items-table tbody tr { height: 48px; }
         .bottom-section { display: flex; border-bottom: 1px solid #1a1a1a; }
         .declaration-block { flex: 1; border-right: 1px solid #1a1a1a; padding: 8px 10px; font-size: 11px; color: #333; line-height: 1.5; }
         .declaration-block b { font-size: 12px; color: #1a1a1a; }
+        .declaration-block { min-height: 160px; }
         .grand-total-words { margin-top: 8px; font-size: 11.5px; font-weight: 600; color: #1a1a1a; }
         .totals-block { width: 280px; }
         .totals-table { width: 100%; border-collapse: collapse; }
