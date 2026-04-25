@@ -208,7 +208,6 @@ function Invoice() {
               Ph : 8208460013, 9004007751 &nbsp;|&nbsp; Email : bhumipolymer@gmail.com
             </div>
           </div>
-          
             <div className="inv-meta-row">
               <span className="inv-meta-label">PO. No. :</span>
               <EditInput value={poNo} onChange={e => setPoNo(e.target.value)} placeholder="-" style={{ width: "70px" }} />
