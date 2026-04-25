@@ -256,7 +256,7 @@ function Invoice() {
           </div>
         </div>
 
-        {/* BANK + SIGN */}
+       {/* BANK + SIGN */}
         <div className="footer-row">
           <div className="bank-block">
             <div className="bank-title">Bank Details</div>
@@ -274,17 +274,16 @@ function Invoice() {
               All Dispute Subjected to Islampur Jurisdiction
             </div>
           </div>
-          <div className="sign-block" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "220px", padding: "10px 14px" }}>
-  <div style={{ textAlign: "center" }}>
-    <div style={{ marginTop: "40px", borderTop: "1px solid #1a1a1a", paddingTop: "4px", fontSize: "11px" }}>Cust. Sign.</div>
-  </div>
-  <div style={{ textAlign: "center" }}>
-    <div style={{ marginTop: "40px", borderTop: "1px solid #1a1a1a", paddingTop: "4px" }}>
-      <div style={{ fontSize: "13px", fontWeight: 700 }}>For, BHUMI POLYMERS</div>
-      <div style={{ fontSize: "11px", color: "#555" }}>Authorized Signatory</div>
-    </div>
-  </div>
-</div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "220px", padding: "10px 14px" }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ marginTop: "40px", borderTop: "1px solid #1a1a1a", paddingTop: "4px", fontSize: "11px" }}>Cust. Sign.</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ marginTop: "40px", borderTop: "1px solid #1a1a1a", paddingTop: "4px" }}>
+                <div style={{ fontSize: "13px", fontWeight: 700 }}>For, BHUMI POLYMERS</div>
+                <div style={{ fontSize: "11px", color: "#555" }}>Authorized Signatory</div>
+              </div>
+            </div>
           </div>
         </div>
 
