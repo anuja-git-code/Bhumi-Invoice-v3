@@ -23,15 +23,18 @@ const toWords = (num) => {
 
 function Invoice() {
   const [items, setItems] = useState([
-    { desc: "", hsn: "", rate: "", qty: "", total: "" }
+    { desc: "", hsn: "39232990", rate: "", qty: "", total: "" }
   ]);
   const [customer, setCustomer] = useState({
-    name: "", address: "", state: "", stateCode: "", gstin: ""
+    name: "", address: "", state: "", stateCode: "27", gstin: ""
   });
   const [invoiceNo, setInvoiceNo] = useState("848");
   const [invoiceDate, setInvoiceDate] = useState(new Date().toLocaleDateString("en-IN"));
   const [poNo, setPoNo] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
+  const [roundOff, setRoundOff] = useState("");
+
+  const isMaharashtra = customer.stateCode.trim() === "27";
 
   const handlePrint = () => window.print();
 
@@ -45,7 +48,7 @@ function Invoice() {
   };
 
   const addRow = () =>
-    setItems([...items, { desc: "", hsn: "", rate: "", qty: "", total: "" }]);
+    setItems([...items, { desc: "", hsn: "39232990", rate: "", qty: "", total: "" }]);
 
   const removeRow = (i) => {
     if (items.length === 1) return;
@@ -53,16 +56,19 @@ function Invoice() {
   };
 
   const total = items.reduce((s, i) => s + Number(i.total || 0), 0);
-  const cgst = total * 0.09;
-  const sgst = total * 0.09;
-  const grand = total + cgst + sgst;
+  const roundOffVal = parseFloat(roundOff) || 0;
+
+  const cgst = isMaharashtra ? total * 0.09 : 0;
+  const sgst = isMaharashtra ? total * 0.09 : 0;
+  const igst = !isMaharashtra ? total * 0.18 : 0;
+  const grand = total + cgst + sgst + igst - roundOffVal;
 
   const handleSave = async () => {
     try {
       const payload = {
-        customer: customer,
-        items: items,
-        totals: { total, cgst, sgst, grand }
+        customer,
+        items,
+        totals: { total, cgst, sgst, igst, roundOff: roundOffVal, grand }
       };
       const res = await fetch(`${SUPABASE_URL}/rest/v1/invoices`, {
         method: "POST",
@@ -124,16 +130,16 @@ function Invoice() {
         .receiver-section-title { background: #d0d8e4; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; padding: 3px 8px; text-transform: uppercase; border-bottom: 1px solid #1a1a1a; }
         .receiver-left { flex: 1; border-right: 1px solid #1a1a1a; }
         .receiver-right { width: 200px; }
-        .receiver-fields { padding: 6px 10px; display: flex; flex-direction: column; gap: 4px; }
-        .field-row { display: flex; align-items: baseline; gap: 4px; font-size: 12px; }
-        .field-label { font-weight: 600; white-space: nowrap; min-width: 60px; }
-        .gstin-boxes { display: flex; gap: 2px; margin-top: 2px; }
-        .gstin-input-box { width: 20px !important; height: 22px !important; border: 1px solid #1a1a1a !important; text-align: center !important; font-size: 11px !important; font-weight: 600 !important; padding: 0 !important; background: transparent !important; }
-        .items-table { width: 100%; border-collapse: collapse; border-bottom: 1px solid #1a1a1a; }
+        .receiver-fields { padding: 6px 10px; display: flex; flex-direction: column; gap: 6px; }
+        .field-row { display: flex; align-items: center; gap: 4px; font-size: 12px; }
+        .field-label { font-weight: 600; white-space: nowrap; min-width: 70px; }
+        .gstin-input { border: none; border-bottom: 1px dashed #aaa; outline: none; background: transparent; font-family: monospace; font-size: 12px; font-weight: 600; letter-spacing: 2px; width: 100%; padding: 2px 4px; text-transform: uppercase; }
+        .gstin-input:focus { border-bottom: 1px solid #1a3a5c; }
+        .items-table { width: 100%; border-collapse: collapse; border-bottom: 1px solid #1a1a1a; table-layout: fixed; }
         .items-table th { background: #d0d8e4; border: 1px solid #1a1a1a; padding: 6px 8px; text-align: center; font-size: 12px; font-weight: 700; }
-        .items-table td { border: 1px solid #1a1a1a; padding: 5px 7px; text-align: center; vertical-align: middle; font-size: 12px; position: relative; }
+        .items-table td { border: 1px solid #1a1a1a; padding: 4px 6px; text-align: center; vertical-align: middle; font-size: 12px; }
         .items-table td.desc-cell { text-align: left; }
-        .items-table tbody tr { height: 30px; }
+        .items-table tbody tr { height: 32px; }
         .bottom-section { display: flex; border-bottom: 1px solid #1a1a1a; }
         .declaration-block { flex: 1; border-right: 1px solid #1a1a1a; padding: 8px 10px; font-size: 11px; color: #333; line-height: 1.5; }
         .declaration-block b { font-size: 12px; color: #1a1a1a; }
@@ -156,7 +162,7 @@ function Invoice() {
         .cust-sign { font-size: 11px; color: #555; }
         .for-company { font-size: 13px; font-weight: 700; margin-top: 40px; }
         .auth-sign { font-size: 11px; color: #555; margin-top: 4px; }
-        .edit-input { border: none; border-bottom: 1px dashed #aaa; outline: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit; padding: 1px 2px; width: 100%; min-width: 60px; }
+        .edit-input { border: none; border-bottom: 1px dashed #aaa; outline: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit; padding: 1px 2px; width: 100%; min-width: 40px; }
         .edit-input:focus { border-bottom: 1px solid #1a3a5c; background: rgba(26,58,92,0.04); }
         .edit-input::placeholder { color: #bbb; font-style: italic; }
         .table-input { border: none; outline: none; background: transparent; font-family: inherit; font-size: 12px; color: inherit; padding: 0; width: 100%; text-align: center; }
@@ -164,13 +170,16 @@ function Invoice() {
         .desc-input { text-align: left; }
         .remove-btn { background: none; border: none; color: #c62828; cursor: pointer; font-size: 14px; padding: 0 2px; line-height: 1; opacity: 0.6; }
         .remove-btn:hover { opacity: 1; }
+        .roundoff-input { border: none; border-bottom: 1px dashed #aaa; outline: none; background: transparent; font-size: 12px; width: 70px; text-align: right; font-family: inherit; }
         @media print {
           body { background: white !important; }
           .invoice-wrapper { background: white !important; padding: 0 !important; }
           .action-bar { display: none !important; }
           .edit-input { border: none !important; border-bottom: none !important; }
           .table-input { border: none !important; }
+          .gstin-input { border: none !important; letter-spacing: 3px; }
           .remove-btn { display: none !important; }
+          .roundoff-input { border: none !important; }
           .invoice-doc { border: 2px solid black !important; }
         }
       `}</style>
@@ -182,6 +191,7 @@ function Invoice() {
       </div>
 
       <div className="invoice-doc">
+        {/* HEADER */}
         <div className="inv-header">
           <div className="inv-header-left">
             <div className="tax-invoice-label">TAX INVOICE</div>
@@ -219,6 +229,7 @@ function Invoice() {
           </div>
         </div>
 
+        {/* RECEIVER */}
         <div className="receiver-row">
           <div className="receiver-left">
             <div className="receiver-section-title">Details of Receiver (Billed to)</div>
@@ -233,54 +244,56 @@ function Invoice() {
               </div>
               <div className="field-row">
                 <span className="field-label">State</span>
-                <EditInput value={customer.state} onChange={e => setCustomer({ ...customer, state: e.target.value })} placeholder="State" style={{ width: "120px" }} />
+                <EditInput value={customer.state} onChange={e => setCustomer({ ...customer, state: e.target.value })} placeholder="State" style={{ width: "100px" }} />
                 <span style={{ fontWeight: 600, marginLeft: "10px", whiteSpace: "nowrap" }}>State Code :</span>
-                <EditInput value={customer.stateCode} onChange={e => setCustomer({ ...customer, stateCode: e.target.value })} placeholder="27" style={{ width: "40px" }} />
+                <EditInput value={customer.stateCode} onChange={e => setCustomer({ ...customer, stateCode: e.target.value })} placeholder="27" style={{ width: "35px" }} />
               </div>
-              <div className="field-row" style={{ alignItems: "center", flexWrap: "wrap", gap: "6px" }}>
+              <div className="field-row">
                 <span className="field-label">GSTIN No.</span>
-                <div className="gstin-boxes">
-                  {Array.from({ length: 15 }).map((_, idx) => (
-                    <input key={idx} className="gstin-input-box" maxLength={1}
-                      value={(customer.gstin || "")[idx] || ""}
-                      onChange={e => {
-                        const arr = (customer.gstin || "").padEnd(15, " ").split("");
-                        arr[idx] = e.target.value.toUpperCase().slice(-1);
-                        const newGstin = arr.join("").trimEnd();
-                        setCustomer({ ...customer, gstin: newGstin });
-                        if (e.target.value && e.target.nextSibling) e.target.nextSibling.focus();
-                      }}
-                    />
-                  ))}
-                </div>
+                <input
+                  className="gstin-input"
+                  maxLength={15}
+                  value={customer.gstin}
+                  onChange={e => setCustomer({ ...customer, gstin: e.target.value.toUpperCase() })}
+                  placeholder="Enter 15-digit GSTIN"
+                />
               </div>
             </div>
           </div>
           <div className="receiver-right">
             <div className="receiver-section-title" style={{ visibility: "hidden" }}>.</div>
-            <div className="receiver-fields"><div style={{ marginBottom: "4px" }}>&nbsp;</div></div>
+            <div className="receiver-fields"><div>&nbsp;</div></div>
           </div>
         </div>
 
+        {/* ITEMS TABLE */}
         <table className="items-table">
           <thead>
             <tr>
               <th style={{ width: "5%" }}>Sr.<br />No.</th>
-              <th style={{ width: "42%" }}>Description of Service</th>
-              <th style={{ width: "13%" }}>HSN Code<br />(GST)</th>
-              <th style={{ width: "10%" }}>Rate</th>
-              <th style={{ width: "10%" }}>Qty.</th>
-              <th style={{ width: "20%" }}>Taxable Amount</th>
+              <th style={{ width: "38%" }}>Description of Service</th>
+              <th style={{ width: "14%" }}>HSN Code<br />(GST)</th>
+              <th style={{ width: "11%" }}>Rate</th>
+              <th style={{ width: "11%" }}>Qty.</th>
+              <th style={{ width: "21%" }}>Taxable Amount</th>
             </tr>
           </thead>
           <tbody>
             {items.map((item, i) => (
               <tr key={i}>
                 <td>{i + 1}</td>
-                <td className="desc-cell"><input className="table-input desc-input" name="desc" value={item.desc} onChange={e => handleChange(i, e)} placeholder="Item description" /></td>
-                <td><input className="table-input" name="hsn" value={item.hsn} onChange={e => handleChange(i, e)} placeholder="HSN" /></td>
-                <td><input className="table-input" name="rate" value={item.rate} onChange={e => handleChange(i, e)} placeholder="0" type="number" /></td>
-                <td><input className="table-input" name="qty" value={item.qty} onChange={e => handleChange(i, e)} placeholder="0" type="number" /></td>
+                <td className="desc-cell">
+                  <input className="table-input desc-input" name="desc" value={item.desc} onChange={e => handleChange(i, e)} placeholder="Item description" />
+                </td>
+                <td>
+                  <input className="table-input" name="hsn" value={item.hsn} onChange={e => handleChange(i, e)} placeholder="39232990" />
+                </td>
+                <td>
+                  <input className="table-input" name="rate" value={item.rate} onChange={e => handleChange(i, e)} placeholder="0" type="number" />
+                </td>
+                <td>
+                  <input className="table-input" name="qty" value={item.qty} onChange={e => handleChange(i, e)} placeholder="0" type="number" />
+                </td>
                 <td>
                   {item.total ? Number(item.total).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : ""}
                   {items.length > 1 && (<button className="remove-btn" onClick={() => removeRow(i)}>×</button>)}
@@ -288,31 +301,61 @@ function Invoice() {
               </tr>
             ))}
             {items.length < 7 && Array.from({ length: Math.max(0, 7 - items.length) }).map((_, i) => (
-              <tr key={`blank-${i}`} style={{ height: "28px" }}><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+              <tr key={`blank-${i}`} style={{ height: "32px" }}><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             ))}
           </tbody>
         </table>
 
+        {/* TOTALS + DECLARATION */}
         <div className="bottom-section">
           <div className="declaration-block">
             <b>Declaration</b>
             <p style={{ margin: "4px 0 0" }}>We declare that this invoice shows the actual price of the goods described and that all particulars are true and Correct</p>
-            <div className="grand-total-words">Grand Total Rs. (In Words) {grand > 0 ? toWords(grand) : "—"}</div>
+            <div className="grand-total-words">
+              Grand Total Rs. (In Words) {grand > 0 ? toWords(Math.round(grand)) : "—"}
+            </div>
           </div>
           <div className="totals-block">
             <table className="totals-table">
               <tbody>
-                <tr><td>Total</td><td>{total > 0 ? total.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td></tr>
-                <tr><td>CGST &nbsp; 9 %</td><td>{cgst > 0 ? cgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td></tr>
-                <tr><td>SGST &nbsp; 9 %</td><td>{sgst > 0 ? sgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td></tr>
-                <tr><td>IGST &nbsp;&nbsp;&nbsp; %</td><td>-</td></tr>
-                <tr><td>Round off</td><td>-</td></tr>
-                <tr className="grand-total-row"><td><b>Grand Total</b></td><td><b>{grand > 0 ? grand.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</b></td></tr>
+                <tr>
+                  <td>Total</td>
+                  <td>{total > 0 ? total.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
+                </tr>
+                <tr>
+                  <td>CGST &nbsp; 9 %</td>
+                  <td>{isMaharashtra ? cgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
+                </tr>
+                <tr>
+                  <td>SGST &nbsp; 9 %</td>
+                  <td>{isMaharashtra ? sgst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
+                </tr>
+                <tr>
+                  <td>IGST &nbsp; 18 %</td>
+                  <td>{!isMaharashtra && igst > 0 ? igst.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</td>
+                </tr>
+                <tr>
+                  <td>Round off</td>
+                  <td>
+                    <input
+                      className="roundoff-input"
+                      type="number"
+                      value={roundOff}
+                      onChange={e => setRoundOff(e.target.value)}
+                      placeholder="0"
+                    />
+                  </td>
+                </tr>
+                <tr className="grand-total-row">
+                  <td><b>Grand Total</b></td>
+                  <td><b>{grand > 0 ? grand.toLocaleString("en-IN", { minimumFractionDigits: 2 }) : "-"}</b></td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
 
+        {/* BANK + SIGN */}
         <div className="footer-row">
           <div className="bank-block">
             <div className="bank-title">Bank Details</div>
